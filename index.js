@@ -20,7 +20,7 @@ const generatePrompt = (schema) => {
   )}.`;
 };
 
-app.post('/generate', async (req, res) => {
+app.post('/generate?extraPrompts', async (req, res) => {
   try {
     const { schema } = req.body;
     if (!schema) return res.status(400).json({ error: 'Schema is required' });
@@ -31,7 +31,7 @@ app.post('/generate', async (req, res) => {
       model: 'o1-preview',
       messages: [{ role: 'system', content: prompt }],
       temperature: 0.7,
-      response_format: 'json',
+      response_format: 'json-object',
     });
 
     const generatedData = response.choices[0].message?.content;
