@@ -1,82 +1,72 @@
-# Schema API Server
+# Schema-Based Data Generation API
 
 ## Overview
-This server is built using Express.js and leverages the OpenAI API to generate JSON objects based on user-defined schemas. It allows users to send a JSON schema to the server, which then uses the OpenAI model to generate a JSON object that strictly follows the provided schema.
+This API leverages AI to generate data based on a user-provided JSON schema. It uses OpenAI's language model (or alternative models) to generate structured JSON data that follows the given schema.
 
 ## Features
-- **Schema-based JSON Generation**: Users can define a schema, and the server will generate a JSON object that adheres to this schema.
-- **Express.js Framework**: The server is built using the Express.js framework, making it lightweight and easy to extend.
-- **CORS Enabled**: Cross-Origin Resource Sharing (CORS) is enabled, allowing the server to handle requests from different origins.
-- **Environment Configuration**: The server uses dotenv to manage environment variables, ensuring sensitive data like API keys are securely managed.
+- Accepts a JSON schema as input.
+- Generates a JSON response that strictly follows the provided schema.
+- Uses AI models to produce realistic and meaningful data.
 
-## Endpoints
+## Installation
 
-### `POST /generate`
-**Description**: Generates a JSON object based on the provided schema.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-repo/schema-api.git
+   cd schema-api
+   ```
 
-**Request Body**: A JSON object containing the schema.
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-**Example Request:**
+3. Create a `.env` file and add your OpenAI API key:
+   ```
+   OPENAI_API_KEY=your_api_key_here
+   ```
 
+4. Start the server:
+   ```sh
+   npm run dev
+   ```
+   or
+   ```sh
+   node src/index.js
+   ```
+
+## Usage
+
+### Endpoint: `POST /generate`
+
+#### Request Body:
 ```json
 {
   "schema": {
-    "type": "object",
-    "properties": {
-      "name": { "type": "string" },
-      "age": { "type": "integer" }
-    },
-    "required": ["name", "age"]
+    "name": "string",
+    "age": "number",
+    "email": "string"
   }
 }
 ```
 
-**Example Response:**
-
+#### Response:
 ```json
 {
-  "data": { "name": "John Doe", "age": 30 }
+  "data": {
+    "name": "John Doe",
+    "age": 25,
+    "email": "johndoe@example.com"
+  }
 }
 ```
 
-## Setup and Running the Server
+## Alternative AI Models
+If you want to use free alternatives to OpenAI, modify the API to integrate models from:
+- [Mistral AI](https://mistral.ai/)
+- [Hugging Face](https://huggingface.co/inference-api)
+- [Together AI](https://www.together.ai/)
 
-### Clone the repository:
-```sh
-git clone https://github.com/husseinTalal2/schema-api.git
-```
-
-### Navigate to the project directory:
-```sh
-cd schema-api
-```
-
-### Install dependencies:
-```sh
-npm install
-```
-
-### Create a `.env` file and add your OpenAI API key:
-```sh
-OPENAI_API_KEY=your_openai_api_key
-```
-
-### Start the server:
-```sh
-node index.js
-```
-
-The server will be running on `http://localhost:3000`.
-
-## Dependencies
-- `express`: Fast, unopinionated, minimalist web framework for Node.js
-- `openai`: OpenAI API client library
-- `dotenv`: Module to load environment variables from a `.env` file
-- `cors`: Middleware to enable CORS
-
-## Error Handling
-The server includes basic error handling to manage cases where the schema is not provided or if there's an issue with generating the JSON object. Appropriate HTTP status codes and error messages are returned to the client.
-
-## Conclusion
-This server provides a simple yet powerful way to generate JSON objects based on user-defined schemas using OpenAI's capabilities. It can be easily integrated into various applications that require dynamic JSON generation.
+## License
+This project is open-source and licensed under the MIT License.
 
